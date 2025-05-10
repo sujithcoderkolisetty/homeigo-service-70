@@ -87,7 +87,7 @@ const ServiceDetail = () => {
           <p className="text-gray-600 mb-6">{service.description}</p>
           
           <div className="flex items-center justify-between mb-8">
-            <p className="text-2xl font-semibold text-homeigo-600">${service.price}</p>
+            <p className="text-2xl font-semibold text-homeigo-600">₹{service.price}</p>
             <p className="text-gray-500">Provided by: {service.provider}</p>
           </div>
           

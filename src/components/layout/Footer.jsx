@@ -12,7 +12,7 @@ const Footer = () => {
               Home<span className="text-homeigo-500">igo</span>
             </h2>
             <p className="text-gray-500 mb-4">
-              Your trusted platform for professional home services.
+              Your trusted platform for professional home services in Andhra Pradesh.
             </p>
           </div>
 
@@ -33,6 +33,11 @@ const Footer = () => {
               <li>
                 <Link to="/about" className="text-gray-500 hover:text-homeigo-500">
                   About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/register" className="text-gray-500 hover:text-homeigo-500">
+                  Register
                 </Link>
               </li>
             </ul>
@@ -68,10 +73,10 @@ const Footer = () => {
                 Email: support@homeigo.com
               </li>
               <li className="text-gray-500">
-                Phone: +1 (555) 123-4567
+                Phone: +91 9876543210
               </li>
               <li className="text-gray-500">
-                Address: KL University, Green Fields, Vaddeswaram, Guntur
+                Address: KL University, Green Fields, Vaddeswaram, Guntur, Andhra Pradesh
               </li>
             </ul>
           </div>
@@ -84,7 +89,7 @@ const Footer = () => {
               &copy; {new Date().getFullYear()} Homeigo. All rights reserved.
             </p>
             <p className="text-sm text-gray-500">
-              Developed by: Jahnavi-2300030131, Ramya-2300030326, Kartikeya-2300032330 | FSAD-S24
+              Developed by: Jahnavi-2300030131, Ramya-2300030326, Karthikeya-2300032330 | FSAD-S24
             </p>
           </div>
         </div>

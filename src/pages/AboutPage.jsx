@@ -17,9 +17,9 @@ const AboutPage = () => {
       role: 'Backend Developer'
     },
     {
-      name: 'Kartikeya',
+      name: 'Karthikeya',
       id: '2300032330',
-      email: 'kartikeya@kluniversity.in',
+      email: 'karthikeya@kluniversity.in',
       role: 'UI/UX Designer'
     }
   ];
@@ -37,7 +37,7 @@ const AboutPage = () => {
                 Homeigo is a comprehensive home services platform designed to connect homeowners with professional service providers. Our mission is to make home maintenance and improvement services accessible, reliable, and hassle-free for everyone.
               </p>
               <p>
-                Founded as part of the Full Stack Application Development (FSAD) course at KL University, our platform aims to revolutionize the way people book and manage home services.
+                Founded as part of the Full Stack Application Development (FSAD) course at KL University, our platform aims to revolutionize the way people book and manage home services in Andhra Pradesh.
               </p>
               <p>
                 Whether you need cleaning, repairs, maintenance, or any other home service, Homeigo provides a streamlined booking experience with verified professionals you can trust.
@@ -67,7 +67,7 @@ const AboutPage = () => {
               <div className="text-center">
                 <p className="mb-1">KL University</p>
                 <p className="mb-1">Full Stack Application Development (FSAD-S24)</p>
-                <p>Green Fields, Vaddeswaram, Guntur</p>
+                <p>Green Fields, Vaddeswaram, Guntur, Andhra Pradesh</p>
               </div>
             </div>
           </div>

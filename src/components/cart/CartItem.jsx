@@ -26,7 +26,7 @@ const CartItem = ({ item }) => {
       </div>
       
       <div className="flex flex-col items-end gap-4">
-        <p className="font-semibold text-lg">${item.price}</p>
+        <p className="font-semibold text-lg">₹{item.price}</p>
         <Button 
           variant="outline" 
           size="sm" 

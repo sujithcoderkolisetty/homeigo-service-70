@@ -72,18 +72,18 @@ const CartPage = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Services ({cartItems.length})</span>
-                    <span>${totalPrice}</span>
+                    <span>₹{totalPrice}</span>
                   </div>
                   
                   <div className="flex justify-between">
                     <span className="text-gray-600">Service Fee</span>
-                    <span>$0</span>
+                    <span>₹0</span>
                   </div>
                   
                   <div className="border-t pt-4">
                     <div className="flex justify-between font-semibold">
                       <span>Total</span>
-                      <span>${totalPrice}</span>
+                      <span>₹{totalPrice}</span>
                     </div>
                   </div>
                   
