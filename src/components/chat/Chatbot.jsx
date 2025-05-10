@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -127,7 +128,7 @@ const Chatbot = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+          onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
           placeholder="Type your question... / మీ ప్రశ్న టైప్ చేయండి..."
           className="flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-homeigo-500"
           disabled={loading}
@@ -148,12 +149,15 @@ const Chatbot = () => {
       {isMobile ? (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
           <DrawerTrigger asChild>
-            <Button 
-              className="fixed bottom-6 right-6 rounded-full w-14 h-14 bg-homeigo-500 hover:bg-homeigo-600 shadow-lg z-50"
-              size="icon"
-            >
-              <MessageCircle className="h-6 w-6" />
-            </Button>
+            <div className="fixed bottom-6 right-6 z-50">
+              <div className="absolute -inset-2 bg-homeigo-400 rounded-full animate-pulse opacity-70"></div>
+              <Button 
+                className="relative rounded-full w-14 h-14 bg-homeigo-500 hover:bg-homeigo-600 shadow-lg"
+                size="icon"
+              >
+                <MessageCircle className="h-6 w-6" />
+              </Button>
+            </div>
           </DrawerTrigger>
           <DrawerContent className="h-[80vh] p-0">
             <ChatInterface />
@@ -161,13 +165,16 @@ const Chatbot = () => {
         </Drawer>
       ) : (
         <>
-          <Button 
-            className={`fixed bottom-6 right-6 rounded-full w-14 h-14 bg-homeigo-500 hover:bg-homeigo-600 shadow-lg z-50 ${isOpen ? 'hidden' : 'flex'}`}
-            onClick={() => setIsOpen(true)}
-            size="icon"
-          >
-            <MessageCircle className="h-6 w-6" />
-          </Button>
+          <div className={`fixed bottom-6 right-6 z-50 ${isOpen ? 'hidden' : 'block'}`}>
+            <div className="absolute -inset-2 bg-homeigo-400 rounded-full animate-pulse opacity-70"></div>
+            <Button 
+              className="relative rounded-full w-14 h-14 bg-homeigo-500 hover:bg-homeigo-600 shadow-lg"
+              onClick={() => setIsOpen(true)}
+              size="icon"
+            >
+              <MessageCircle className="h-6 w-6" />
+            </Button>
+          </div>
           
           {isOpen && (
             <Card className="fixed bottom-6 right-6 w-[350px] md:w-[400px] shadow-xl z-50 rounded-lg overflow-hidden">

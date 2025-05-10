@@ -4,6 +4,22 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 const ServiceCard = ({ service }) => {
+  // Telugu translations for common service titles
+  const getTeluguServiceName = (title) => {
+    const translations = {
+      "Home Cleaning": "ఇంటి శుభ్రపరచడం",
+      "Kitchen Cleaning": "వంటగది శుభ్రపరచడం",
+      "Plumbing Services": "ప్లంబింగ్ సేవలు",
+      "Garden Maintenance": "తోట నిర్వహణ",
+      "Electrical Services": "విద్యుత్ సేవలు",
+      "Painting Services": "పెయింటింగ్ సేవలు",
+      "Carpentry": "వడ్రంగం",
+      "Pest Control": "కీటక నియంత్రణ"
+    };
+    
+    return translations[title] || "";
+  };
+
   return (
     <Card className="service-card overflow-hidden flex flex-col h-full">
       <div className="aspect-[16/9] overflow-hidden">
@@ -17,18 +33,25 @@ const ServiceCard = ({ service }) => {
         />
       </div>
       <CardContent className="flex-grow p-6">
-        <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-        <p className="text-gray-600 mb-4">{service.description}</p>
-        <div className="flex justify-between items-center">
-          <p className="font-medium text-homeigo-600">₹{service.price}</p>
-          <p className="text-sm text-gray-500">{service.provider}</p>
+        <h3 className="text-xl font-semibold mb-1">{service.title}</h3>
+        <p className="text-sm text-gray-500 mb-2">{getTeluguServiceName(service.title)}</p>
+        <p className="text-gray-600 mb-2">{service.description}</p>
+        <div className="flex justify-between items-center mt-3">
+          <div>
+            <p className="font-medium text-homeigo-600">₹{service.price}</p>
+            <p className="text-xs text-gray-500">ధర</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 text-right">{service.provider}</p>
+            <p className="text-xs text-gray-500">ప్రొవైడర్</p>
+          </div>
         </div>
       </CardContent>
       <CardFooter className="p-6 pt-0">
         <Button asChild className="w-full bg-homeigo-500 hover:bg-homeigo-600">
           <Link to={`/service/${service.id}`}>
             <span>Book Now</span>
-            <span className="ml-1 text-xs"> / బుక్ చేసుకోండి</span>
+            <span className="block text-xs">ఇప్పుడే బుక్ చేసుకోండి</span>
           </Link>
         </Button>
       </CardFooter>
