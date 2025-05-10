@@ -33,7 +33,7 @@ const FeaturedServices = () => {
               <CardContent className="flex-grow p-6">
                 <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
                 <p className="text-gray-600 mb-4">{service.description}</p>
-                <p className="font-medium text-homeigo-600">${service.price}</p>
+                <p className="font-medium text-homeigo-600">₹{service.price}</p>
               </CardContent>
               <CardFooter className="p-6 pt-0">
                 <Button asChild className="w-full bg-homeigo-500 hover:bg-homeigo-600">

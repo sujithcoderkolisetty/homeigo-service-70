@@ -24,17 +24,17 @@ export function AuthProvider({ children }) {
     
     // Mock authentication logic
     if (credentials.username === 'Customer' && credentials.password === 'Customer') {
-      const userData = { id: 1, username: 'Customer', role: 'customer', name: 'John Doe' };
+      const userData = { id: 1, username: 'Customer', role: 'customer', name: 'Karthikeya' };
       setUser(userData);
       localStorage.setItem('homeigoUser', JSON.stringify(userData));
       navigate('/customer');
-      toast.success('Welcome back, John!');
+      toast.success('Welcome back, Karthikeya!');
     } else if (credentials.username === 'Service Provider' && credentials.password === 'Service Provider') {
-      const userData = { id: 2, username: 'Service Provider', role: 'provider', name: 'Jane Smith' };
+      const userData = { id: 2, username: 'Service Provider', role: 'provider', name: 'Ramya' };
       setUser(userData);
       localStorage.setItem('homeigoUser', JSON.stringify(userData));
       navigate('/provider');
-      toast.success('Welcome back, Jane!');
+      toast.success('Welcome back, Ramya!');
     } else if (credentials.username === 'Admin' && credentials.password === 'Admin') {
       const userData = { id: 3, username: 'Admin', role: 'admin', name: 'Admin User' };
       setUser(userData);
