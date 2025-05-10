@@ -5,33 +5,15 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
   const { login, loading } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // If user selected a role shortcut, auto-fill credentials
-    if (role) {
-      login({ 
-        username: role, 
-        password: role 
-      });
-    } else {
-      // Manual login with entered credentials
-      login({ username, password });
-    }
-  };
-
-  const handleRoleChange = (selectedRole) => {
-    setRole(selectedRole);
-    setUsername(selectedRole);
-    setPassword(selectedRole);
+    login({ username, password });
   };
 
   return (
@@ -44,23 +26,6 @@ const LoginForm = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="role">Quick Login As</Label>
-            <Select onValueChange={handleRoleChange} value={role}>
-              <SelectTrigger id="role">
-                <SelectValue placeholder="Select a role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Customer">Customer</SelectItem>
-                <SelectItem value="Service Provider">Service Provider</SelectItem>
-                <SelectItem value="Admin">Admin</SelectItem>
-              </SelectContent>
-            </Select>
-            <p className="text-xs text-muted-foreground mt-1">
-              Or enter your credentials manually below
-            </p>
-          </div>
-
           <div className="space-y-2">
             <Label htmlFor="username">Username</Label>
             <Input

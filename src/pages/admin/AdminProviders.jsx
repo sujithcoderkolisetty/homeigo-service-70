@@ -5,14 +5,21 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useAuth } from '@/contexts/AuthContext';
 import { useServices } from '@/contexts/ServiceContext';
+import { Plus, Edit, Trash2 } from 'lucide-react';
+import ProviderForm from '@/components/admin/ProviderForm';
+import { toast } from 'sonner';
 
 const AdminProviders = () => {
-  const { user } = useAuth();
-  const { services } = useServices();
+  const { user, getUsers, deleteUser } = useAuth();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
+  const [providers, setProviders] = useState([]);
+  const [isAddProviderOpen, setIsAddProviderOpen] = useState(false);
+  const [isEditProviderOpen, setIsEditProviderOpen] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState(null);
   
   // Redirect if not logged in as admin
   useEffect(() => {
@@ -23,26 +30,50 @@ const AdminProviders = () => {
     }
   }, [user, navigate]);
   
-  // Get unique providers from services
-  const allProviders = [...new Set(services.map(service => service.provider))];
-  
-  // Generate mock data for display
-  const providersData = allProviders.map(providerName => {
-    const providerServices = services.filter(s => s.provider === providerName);
-    return {
-      id: providerName.toLowerCase().replace(/\s+/g, '-'),
-      name: providerName,
-      email: `${providerName.toLowerCase().replace(/\s+/g, '.')}@example.com`,
-      servicesCount: providerServices.length,
-      status: 'Active'
-    };
-  });
+  // Load providers
+  useEffect(() => {
+    if (user && user.role === 'admin') {
+      // Get all providers from the auth context
+      const allProviders = getUsers('provider');
+      setProviders(allProviders);
+    }
+  }, [user, getUsers]);
   
   // Filter providers based on search term
-  const filteredProviders = providersData.filter(provider => 
-    provider.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    provider.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProviders = providers.filter(provider => 
+    provider.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    provider.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
+  const handleAddProvider = () => {
+    setIsAddProviderOpen(false);
+    // Refresh providers list
+    setProviders(getUsers('provider'));
+  };
+  
+  const handleEditProvider = (provider) => {
+    setSelectedProvider(provider);
+    setIsEditProviderOpen(true);
+  };
+  
+  const handleDeleteProvider = (providerId) => {
+    if (window.confirm('Are you sure you want to delete this provider?')) {
+      const success = deleteUser(providerId);
+      if (success) {
+        toast.success('Provider deleted successfully!');
+        setProviders(getUsers('provider'));
+      } else {
+        toast.error('Failed to delete provider');
+      }
+    }
+  };
+  
+  const handleEditComplete = () => {
+    setIsEditProviderOpen(false);
+    setSelectedProvider(null);
+    // Refresh providers list
+    setProviders(getUsers('provider'));
+  };
   
   if (!user) {
     return null; // Will redirect in useEffect
@@ -56,8 +87,13 @@ const AdminProviders = () => {
           <div>
             <h1 className="text-3xl font-bold mb-2">Manage Providers</h1>
             <p className="text-gray-600">View and manage service providers on the platform</p>
+            <p className="text-sm text-gray-500">సేవా ప్రొవైడర్లను నిర్వహించండి</p>
           </div>
-          <Button className="mt-4 md:mt-0 bg-homeigo-500 hover:bg-homeigo-600">
+          <Button 
+            className="mt-4 md:mt-0 bg-homeigo-500 hover:bg-homeigo-600"
+            onClick={() => setIsAddProviderOpen(true)}
+          >
+            <Plus size={18} className="mr-1" />
             Add New Provider
           </Button>
         </div>
@@ -79,7 +115,7 @@ const AdminProviders = () => {
                 <tr className="bg-gray-50">
                   <th className="py-3 px-4 text-left">Provider</th>
                   <th className="py-3 px-4 text-left">Email</th>
-                  <th className="py-3 px-4 text-left">Services</th>
+                  <th className="py-3 px-4 text-left">Username</th>
                   <th className="py-3 px-4 text-left">Status</th>
                   <th className="py-3 px-4 text-left">Actions</th>
                 </tr>
@@ -89,31 +125,51 @@ const AdminProviders = () => {
                   <tr key={provider.id} className="border-t">
                     <td className="py-4 px-4">
                       <div className="flex items-center">
-                        <div className="w-10 h-10 rounded-full bg-homeigo-100 flex items-center justify-center mr-3">
-                          <span className="text-homeigo-600 font-medium">
-                            {provider.name.charAt(0)}
-                          </span>
+                        <div className="w-10 h-10 rounded-full bg-homeigo-100 flex items-center justify-center mr-3 overflow-hidden">
+                          {provider.image ? (
+                            <img 
+                              src={provider.image} 
+                              alt={provider.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span className="text-homeigo-600 font-medium">
+                              {provider.name?.charAt(0)}
+                            </span>
+                          )}
                         </div>
                         <div>
                           <p className="font-medium">{provider.name}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 px-4">{provider.email}</td>
-                    <td className="py-4 px-4">{provider.servicesCount}</td>
+                    <td className="py-4 px-4">{provider.email || 'N/A'}</td>
+                    <td className="py-4 px-4">{provider.username}</td>
                     <td className="py-4 px-4">
                       <span className="inline-block rounded px-2 py-1 text-xs font-medium bg-green-100 text-green-800">
-                        {provider.status}
+                        {provider.status || 'Active'}
                       </span>
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex space-x-2">
-                        <Button variant="outline" size="sm">
-                          View
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={() => handleEditProvider(provider)}
+                        >
+                          <Edit size={16} className="mr-1" />
+                          Edit
                         </Button>
-                        <Button variant="destructive" size="sm">
-                          Suspend
-                        </Button>
+                        {provider.id !== '2' && (
+                          <Button 
+                            variant="destructive" 
+                            size="sm"
+                            onClick={() => handleDeleteProvider(provider.id)}
+                          >
+                            <Trash2 size={16} className="mr-1" />
+                            Delete
+                          </Button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -128,6 +184,28 @@ const AdminProviders = () => {
         </div>
       </main>
       <Footer />
+      
+      {/* Add Provider Dialog */}
+      <Dialog open={isAddProviderOpen} onOpenChange={setIsAddProviderOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Provider</DialogTitle>
+          </DialogHeader>
+          <ProviderForm onComplete={handleAddProvider} />
+        </DialogContent>
+      </Dialog>
+      
+      {/* Edit Provider Dialog */}
+      <Dialog open={isEditProviderOpen} onOpenChange={setIsEditProviderOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Provider</DialogTitle>
+          </DialogHeader>
+          {selectedProvider && (
+            <ProviderForm existingProvider={selectedProvider} onComplete={handleEditComplete} />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
