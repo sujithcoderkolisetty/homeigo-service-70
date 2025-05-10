@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -89,6 +90,10 @@ const Chatbot = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+  };
+
   const ChatInterface = () => (
     <div className="flex flex-col h-[500px] md:h-[600px] w-full">
       <div className="bg-homeigo-500 text-white p-4 rounded-t-lg flex justify-between items-center">
@@ -135,7 +140,7 @@ const Chatbot = () => {
         <input
           type="text"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Type your question... / మీ ప్రశ్న టైప్ చేయండి..."
           className="flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-homeigo-500"
