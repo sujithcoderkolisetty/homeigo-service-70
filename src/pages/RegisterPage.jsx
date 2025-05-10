@@ -49,8 +49,23 @@ const RegisterPage = () => {
     
     // Mock registration - in a real app, this would call an API
     setTimeout(() => {
+      // Store the user data in localStorage so they can log in later
+      const userData = {
+        id: Date.now(), // Generate a unique ID
+        username: formData.username,
+        name: formData.name,
+        role: 'customer', // All registered users are customers
+        email: formData.email,
+        phone: formData.phone
+      };
+      
+      // Store in localStorage - in a real app this would be in a database
+      const existingUsers = JSON.parse(localStorage.getItem('homeigoRegisteredUsers') || '[]');
+      existingUsers.push({...userData, password: formData.password});
+      localStorage.setItem('homeigoRegisteredUsers', JSON.stringify(existingUsers));
+      
       setLoading(false);
-      toast.success("Registration successful!");
+      toast.success("Registration successful! You can now log in");
       navigate('/login');
     }, 1000);
   };

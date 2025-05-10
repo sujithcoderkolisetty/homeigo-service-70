@@ -20,7 +20,7 @@ const ServiceCard = ({ service }) => {
         <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
         <p className="text-gray-600 mb-4">{service.description}</p>
         <div className="flex justify-between items-center">
-          <p className="font-medium text-homeigo-600">${service.price}</p>
+          <p className="font-medium text-homeigo-600">₹{service.price}</p>
           <p className="text-sm text-gray-500">{service.provider}</p>
         </div>
       </CardContent>

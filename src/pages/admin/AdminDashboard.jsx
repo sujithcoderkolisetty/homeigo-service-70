@@ -169,7 +169,7 @@ const AdminDashboard = () => {
                   <tr key={service.id} className="border-b">
                     <td className="py-4 px-4">{service.title}</td>
                     <td className="py-4 px-4">{service.provider}</td>
-                    <td className="py-4 px-4">${service.price}</td>
+                    <td className="py-4 px-4">₹{service.price}</td>
                   </tr>
                 ))}
               </tbody>

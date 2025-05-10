@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
   const login = (credentials) => {
     setLoading(true);
     
-    // Mock authentication logic
+    // First check predefined users
     if (credentials.username === 'Customer' && credentials.password === 'Customer') {
       const userData = { id: 1, username: 'Customer', role: 'customer', name: 'Karthikeya' };
       setUser(userData);
@@ -42,7 +42,22 @@ export function AuthProvider({ children }) {
       navigate('/admin');
       toast.success('Welcome, Admin!');
     } else {
-      toast.error('Invalid credentials');
+      // Check for registered users from localStorage
+      const registeredUsers = JSON.parse(localStorage.getItem('homeigoRegisteredUsers') || '[]');
+      const foundUser = registeredUsers.find(
+        u => u.username === credentials.username && u.password === credentials.password
+      );
+      
+      if (foundUser) {
+        // Remove password from user data before storing in state
+        const { password, ...userData } = foundUser;
+        setUser(userData);
+        localStorage.setItem('homeigoUser', JSON.stringify(userData));
+        navigate('/customer'); // All registered users are customers
+        toast.success(`Welcome back, ${userData.name}!`);
+      } else {
+        toast.error('Invalid credentials');
+      }
     }
     
     setLoading(false);

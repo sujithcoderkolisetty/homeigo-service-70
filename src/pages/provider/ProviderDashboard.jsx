@@ -101,7 +101,7 @@ const ProviderDashboard = () => {
                   <div className="p-4">
                     <h3 className="font-semibold mb-1">{service.title}</h3>
                     <p className="text-sm text-gray-500 mb-2 line-clamp-2">{service.description}</p>
-                    <p className="font-medium text-homeigo-600">${service.price}</p>
+                    <p className="font-medium text-homeigo-600">₹{service.price}</p>
                   </div>
                 </div>
               ))}
