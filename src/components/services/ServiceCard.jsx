@@ -20,6 +20,12 @@ const ServiceCard = ({ service }) => {
     return translations[title] || "";
   };
 
+  // Telugu translation for description (basic placeholder)
+  const getTeluguDescription = (description) => {
+    if (!description) return "";
+    return "ప్రొఫెషనల్ సేవలు మరియు అనుభవజ్ఞులైన సిబ్బంది";
+  };
+
   return (
     <Card className="service-card overflow-hidden flex flex-col h-full">
       <div className="aspect-[16/9] overflow-hidden">
@@ -36,6 +42,7 @@ const ServiceCard = ({ service }) => {
         <h3 className="text-xl font-semibold mb-1">{service.title}</h3>
         <p className="text-sm text-gray-500 mb-2">{getTeluguServiceName(service.title)}</p>
         <p className="text-gray-600 mb-2">{service.description}</p>
+        <p className="text-xs text-gray-500 mb-3">{getTeluguDescription(service.description)}</p>
         <div className="flex justify-between items-center mt-3">
           <div>
             <p className="font-medium text-homeigo-600">₹{service.price}</p>

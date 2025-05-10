@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -65,10 +64,12 @@ const Chatbot = () => {
       console.error('Chatbot error:', error);
       toast({
         title: 'Error',
-        description: 'Failed to get response. Please try again.',
+        description: 'Failed to get response. Using fallback response instead.',
         variant: 'destructive',
       });
       
+      // This shouldn't happen now since we're handling errors in the service,
+      // but keeping it as an extra safeguard
       setMessages(prev => [
         ...prev, 
         { 
@@ -78,6 +79,13 @@ const Chatbot = () => {
       ]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
     }
   };
 
@@ -128,7 +136,7 @@ const Chatbot = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
+          onKeyDown={handleKeyDown}
           placeholder="Type your question... / మీ ప్రశ్న టైప్ చేయండి..."
           className="flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-homeigo-500"
           disabled={loading}
@@ -144,13 +152,33 @@ const Chatbot = () => {
     </div>
   );
 
+  // Enhanced animation for the chat button
+  const chatButtonAnimation = `
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.3;
+      }
+      100% {
+        transform: scale(0.95);
+        opacity: 0.7;
+      }
+    }
+  `;
+
   return (
     <>
+      <style>{chatButtonAnimation}</style>
       {isMobile ? (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
           <DrawerTrigger asChild>
             <div className="fixed bottom-6 right-6 z-50">
-              <div className="absolute -inset-2 bg-homeigo-400 rounded-full animate-pulse opacity-70"></div>
+              <div className="absolute -inset-2 bg-homeigo-400 rounded-full opacity-70"
+                   style={{animation: 'pulse-ring 2s ease-out infinite'}}></div>
               <Button 
                 className="relative rounded-full w-14 h-14 bg-homeigo-500 hover:bg-homeigo-600 shadow-lg"
                 size="icon"
@@ -166,7 +194,8 @@ const Chatbot = () => {
       ) : (
         <>
           <div className={`fixed bottom-6 right-6 z-50 ${isOpen ? 'hidden' : 'block'}`}>
-            <div className="absolute -inset-2 bg-homeigo-400 rounded-full animate-pulse opacity-70"></div>
+            <div className="absolute -inset-2 bg-homeigo-400 rounded-full opacity-70"
+                 style={{animation: 'pulse-ring 2s ease-out infinite'}}></div>
             <Button 
               className="relative rounded-full w-14 h-14 bg-homeigo-500 hover:bg-homeigo-600 shadow-lg"
               onClick={() => setIsOpen(true)}
