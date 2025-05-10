@@ -26,7 +26,10 @@ const ServiceCard = ({ service }) => {
       </CardContent>
       <CardFooter className="p-6 pt-0">
         <Button asChild className="w-full bg-homeigo-500 hover:bg-homeigo-600">
-          <Link to={`/service/${service.id}`}>Book Now</Link>
+          <Link to={`/service/${service.id}`}>
+            <span>Book Now</span>
+            <span className="ml-1 text-xs"> / బుక్ చేసుకోండి</span>
+          </Link>
         </Button>
       </CardFooter>
     </Card>

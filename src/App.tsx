@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CartProvider } from "./contexts/CartContext";
 import { ServiceProvider } from "./contexts/ServiceContext";
+import Chatbot from "./components/chat/Chatbot";
 
 // Pages
 import HomePage from "./pages/HomePage";
@@ -66,6 +67,9 @@ const App = () => (
                 {/* Catch-all Route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              
+              {/* Chatbot component that appears on all pages */}
+              <Chatbot />
               
               <Toaster />
               <Sonner />
